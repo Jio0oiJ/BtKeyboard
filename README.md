@@ -1,5 +1,7 @@
 # BtKeyboard
 
+> **下载 APK**：[v1.7.3 release](apk/BtKeyboard-v1.7.3-release.apk)（可直接安装，签名与旧版一致，无需重新配对）
+
 把 Android 手机变成**蓝牙 HID 键盘 + 触控板**，通过蓝牙连接电脑使用。基于 Android 9+ 的
 `BluetoothHidDevice`（API 28+）实现，纯框架 API，无第三方依赖。
 

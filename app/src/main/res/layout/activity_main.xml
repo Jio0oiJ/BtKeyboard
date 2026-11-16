@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- 顶部只占一行：折叠开关 + 可折叠设置区 + 固定在最右上角的运行状态 -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/panel"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingTop="5dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="5dp">
+
+        <Button
+            android:id="@+id/btnToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/btn_bg"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/settings_collapse"
+            android:textAllCaps="false"
+            android:textColor="@color/accent"
+            android:textSize="12sp" />
+
+        <HorizontalScrollView
+            android:id="@+id/toolbarScroll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnPair"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/pair"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnDevices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/devices"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnDisconnect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/disconnect"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnRetry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/retry"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnAwake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/awake_on"
+                    android:textAllCaps="false"
+                    android:textColor="@color/ok"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/mode_combo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/ok"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnRotate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/rotate"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnDiag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/diag"
+                    android:textAllCaps="false"
+                    android:textColor="@color/accent"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnHelp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/btn_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="@string/help"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- 折叠时接管横向剩余空间，保证状态仍被推到最右上角 -->
+        <View
+            android:id="@+id/topSpacer"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <!-- 运行状态固定在最右上角，不随设置区滚动或折叠；点击可查看完整状态 -->
+        <LinearLayout
+            android:id="@+id/statusBox"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/btn_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp">
+
+            <TextView
+                android:id="@+id/statusDot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="7dp"
+                android:text="●"
+                android:textColor="@color/dim"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/statusTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:maxWidth="150dp"
+                android:text="正在初始化…"
+                android:textColor="@color/text"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 页签 -->
+    <LinearLayout
+        android:id="@+id/tabBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/panel"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="6dp" />
+
+    <!-- 键盘（由代码生成）：占满剩余全部高度，底部不再放置说明文字 -->
+    <FrameLayout
+        android:id="@+id/keyboardHost"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingLeft="5dp"
+        android:paddingTop="4dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="6dp" />
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 一次性修饰键（点一下，作用于下一个普通键后自动抬起）：蓝色，与绿色锁定态区分 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="9dp" />
+    <solid android:color="@color/key_once" />
+    <stroke android:width="1dp" android:color="@color/key_once_edge" />
+</shape>

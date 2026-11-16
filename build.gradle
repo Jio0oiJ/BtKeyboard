@@ -1,0 +1,17 @@
+// 顶层构建文件：使用 buildscript classpath 方式加载 AGP，便于离线/国内环境编译。
+buildscript {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.7.0'
+    }
+}
+
+// 依赖仓库统一在 settings.gradle 的 dependencyResolutionManagement 中声明，
+// 此处不再定义 project 级 repositories（会与 FAIL_ON_PROJECT_REPOS 冲突）。

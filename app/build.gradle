@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.btkeyboard.hid'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'com.btkeyboard.hid'
+        minSdk 28            // BluetoothHidDevice 自 Android 9 (API 28) 起提供
+        targetSdk 34
+        versionCode 11
+        versionName '1.7.3'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            // 未随工程分发正式签名，release 直接沿用本机 debug 密钥，便于直接安装
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+// 全部功能基于 Android 框架 API，无第三方依赖，可离线编译。
+dependencies {
+}

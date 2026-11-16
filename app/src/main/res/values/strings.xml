@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">蓝牙键盘</string>
+    <string name="pair">配对</string>
+    <string name="devices">设备</string>
+    <string name="disconnect">断开</string>
+    <string name="awake_on">常亮 开</string>
+    <string name="awake_off">常亮 关</string>
+    <string name="rotate">旋转</string>
+    <string name="help">帮助</string>
+    <string name="diag">诊断</string>
+    <string name="retry">重试</string>
+    <string name="settings_collapse">收起 ▴</string>
+    <string name="settings_expand">设置 ▾</string>
+    <string name="mode_combo">键鼠模式</string>
+    <string name="mode_keyboard">仅键盘</string>
+</resources>

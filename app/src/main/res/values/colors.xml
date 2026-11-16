@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#FF0E1219</color>
+    <color name="panel">#FF171E29</color>
+    <color name="key">#FF34405A</color>
+    <color name="key_edge">#FF4A5975</color>
+    <color name="key_special">#FF273247</color>
+    <color name="key_special_pressed">#FF4A5C7E</color>
+    <color name="key_accent">#FF3F7BE0</color>
+    <color name="key_accent_pressed">#FF6C9DFF</color>
+    <color name="key_pressed">#FF4C8DFF</color>
+    <color name="key_latch">#FF2E8F6F</color>
+    <color name="key_latch_edge">#FF7FEBCE</color>
+    <color name="key_once">#FF34507E</color>
+    <color name="key_once_edge">#FF8FB6FF</color>
+    <color name="text">#FFEAF0FA</color>
+    <color name="dim">#FF8A97AB</color>
+    <color name="accent">#FF4C8DFF</color>
+    <color name="ok">#FF4FD1A1</color>
+    <color name="warn">#FFFFC46B</color>
+    <color name="danger">#FFFF7B7B</color>
+</resources>

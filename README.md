@@ -1,12 +1,13 @@
 # BtKeyboard
 
-> **下载 APK**：[v1.7.4 release](apk/BtKeyboard-v1.7.4-release.apk)（可直接安装，签名与旧版一致，无需重新配对）
+> **下载 APK**：[v1.7.5 release](apk/BtKeyboard-v1.7.5-release.apk)（可直接安装，签名与旧版一致，无需重新配对）
 
 把 Android 手机变成**蓝牙 HID 键盘 + 触控板**，通过蓝牙连接电脑使用。基于 Android 9+ 的
 `BluetoothHidDevice`（API 28+）实现，纯框架 API，无第三方依赖。
 
 ## 功能
 
+- **默认强制横屏**：启动即锁定横屏，键盘区更大；「旋转」按钮可切换 横屏 / 竖屏 / 跟随系统，按钮颜色随状态变化（锁定为绿色、跟随为灰色），选择会被记住。
 - **全盘 26 键主键盘**：手机输入法风格的 5 行大键布局，字母区尽可能放大。
 - **多页签布局**：主键盘、触控板、编辑/数字小键盘、符号（含 F1–F12）、快捷组合键。
 - **修饰键三态**：`Ctrl / Alt / Win / Shift` 单击=按下后自动抬起；双击=字体加粗并粘滞锁定；再按一次恢复。
@@ -36,11 +37,11 @@
 
 产物在 `app/build/outputs/apk/`。`local.properties` 里的 SDK 路径为本机路径，已加入 `.gitignore`。
 
-`minSdk 28` / `targetSdk 34`，当前版本 `v1.7.4`（versionCode 12），release 使用本机 debug 密钥签名，便于直接安装覆盖。
+`minSdk 28` / `targetSdk 34`，当前版本 `v1.7.5`（versionCode 13），release 使用本机 debug 密钥签名，便于直接安装覆盖。
 
 ## 使用
 
-1. 在 Android 9+ 设备安装 Release/Debug APK，开启蓝牙并授予权限。
+1. 在 Android 9+ 设备安装 Release/Debug APK，开启蓝牙并授予权限。默认进入即强制横屏。
 2. App 会启动前台服务保持 HID 注册；按返回键退出界面不会断开键盘，需在通知里点"停止并注销"。
 3. 在电脑蓝牙设置里搜索并配对。Windows 可能把设备显示成"手机"，这是系统 CoD 决定的，只要设备管理器里出现 HID 键盘且能打字即为正常。
 4. 首次连接或修改 HID 描述符后，需要**两端都删除配对记录再重新配对**（手机端"清除配对" + 电脑端删除设备），否则主机仍缓存旧 SDP。

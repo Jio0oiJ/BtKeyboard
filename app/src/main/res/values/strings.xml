@@ -7,6 +7,9 @@
     <string name="awake_on">常亮 开</string>
     <string name="awake_off">常亮 关</string>
     <string name="rotate">旋转</string>
+    <string name="rotate_auto">旋转 跟随</string>
+    <string name="rotate_landscape">旋转 横屏</string>
+    <string name="rotate_portrait">旋转 竖屏</string>
     <string name="help">帮助</string>
     <string name="diag">诊断</string>
     <string name="retry">重试</string>

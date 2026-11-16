@@ -8,8 +8,8 @@ android {
         applicationId 'com.btkeyboard.hid'
         minSdk 28            // BluetoothHidDevice 自 Android 9 (API 28) 起提供
         targetSdk 34
-        versionCode 12
-        versionName '1.7.4'
+        versionCode 13
+        versionName '1.7.5'
     }
 
     compileOptions {

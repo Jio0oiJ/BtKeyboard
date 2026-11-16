@@ -103,7 +103,7 @@ public class MainActivity extends Activity implements HidKeyboard.Listener {
                     + "· 同一时间只能有一个 App 注册 HID 外设。\n"
                     + "· 中文由主机自己的输入法完成，HID 只发送键码。\n"
                     + "· 要彻底停止：点通知里的「停止并注销」。仅按返回键退出界面不会断开键盘。\n"
-                    + "· 建议横屏使用，「旋转」按钮可强制横屏 / 竖屏 / 跟随系统。";
+                    + "· 默认强制横屏；「旋转」按钮可切换 强制横屏 / 强制竖屏 / 跟随系统，锁定方向时按钮为绿色。";
 
     private HidKeyboard hid;
     private FrameLayout keyboardHost;
@@ -120,7 +120,8 @@ public class MainActivity extends Activity implements HidKeyboard.Listener {
     private String lastDetail = "";
     private boolean keepAwake = true;
     private int currentTab = KeyboardLayouts.TAB_KEYBOARD;
-    private int orientationMode = 0;
+    /** 0=跟随系统 1=强制横屏 2=强制竖屏；默认强制横屏 */
+    private int orientationMode = 1;
     private boolean enableRequested;
     private boolean initialized;
     private float keyTextSize = 13f;
@@ -155,6 +156,9 @@ public class MainActivity extends Activity implements HidKeyboard.Listener {
 
         toolbarCollapsed = getSharedPreferences("btkeyboard_ui", MODE_PRIVATE)
                 .getBoolean("toolbar_collapsed", false);
+        // 默认强制横屏；用户手动切换过的话沿用上次选择
+        orientationMode = getSharedPreferences("btkeyboard_ui", MODE_PRIVATE)
+                .getInt("orientation_mode", 1);
 
         try {
             vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -426,21 +430,16 @@ public class MainActivity extends Activity implements HidKeyboard.Listener {
         updateModeButton();
         findViewById(R.id.btnRotate).setOnClickListener(v -> {
             orientationMode = (orientationMode + 1) % 3;
-            switch (orientationMode) {
-                case 1:
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    toast("已强制横屏");
-                    break;
-                case 2:
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    toast("已强制竖屏");
-                    break;
-                default:
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-                    toast("跟随系统方向");
-                    break;
-            }
+            getSharedPreferences("btkeyboard_ui", MODE_PRIVATE)
+                    .edit().putInt("orientation_mode", orientationMode).apply();
+            applyOrientation();
+            updateRotateButton();
+            toast(orientationMode == 1 ? "已强制横屏"
+                    : orientationMode == 2 ? "已强制竖屏" : "跟随系统方向");
         });
+        // 启动时立即应用（默认强制横屏），并让按钮文字/颜色反映当前状态
+        applyOrientation();
+        updateRotateButton();
         btnToggle.setOnClickListener(v -> {
             toolbarCollapsed = !toolbarCollapsed;
             getSharedPreferences("btkeyboard_ui", MODE_PRIVATE)
@@ -505,6 +504,31 @@ public class MainActivity extends Activity implements HidKeyboard.Listener {
         boolean combo = hid.isComposite();
         btnMode.setText(getString(combo ? R.string.mode_combo : R.string.mode_keyboard));
         btnMode.setTextColor(getResources().getColor(combo ? R.color.ok : R.color.warn));
+    }
+
+    /** 按当前模式应用屏幕方向：1=横屏 2=竖屏 0=跟随系统。 */
+    private void applyOrientation() {
+        switch (orientationMode) {
+            case 1:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                break;
+            case 2:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                break;
+            default:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+                break;
+        }
+    }
+
+    /** 锁定方向=绿色、跟随系统=灰色，文字同步显示当前模式。 */
+    private void updateRotateButton() {
+        Button b = findViewById(R.id.btnRotate);
+        int label = orientationMode == 1 ? R.string.rotate_landscape
+                : orientationMode == 2 ? R.string.rotate_portrait : R.string.rotate_auto;
+        b.setText(getString(label));
+        b.setTextColor(getResources().getColor(
+                orientationMode == 0 ? R.color.dim : R.color.ok));
     }
 
     /** 切换 HID 描述符会改变 SDP 记录，必须提醒用户两端重新配对。 */

@@ -114,6 +114,8 @@ public final class HidKeyboard {
     private volatile boolean appRegistered;
     private volatile boolean proxyRequested;
     private volatile boolean manualDisconnect;
+    /** 切换设备时延迟执行的连接任务，避免快速连点造成多个连接请求打架。 */
+    private volatile Runnable pendingSwitchConnect;
     private volatile boolean receiverRegistered;
     private volatile boolean shuttingDown;
     private volatile String registerReturn = "未调用";
@@ -663,6 +665,12 @@ public final class HidKeyboard {
         return composite;
     }
 
+    /** 当前是否已连到指定主机，设备列表用它标注「（当前）」。 */
+    public boolean isConnectedTo(BluetoothDevice d) {
+        BluetoothDevice c = host;
+        return d != null && c != null && d.equals(c);
+    }
+
     /** 列出已配对设备（需要 BLUETOOTH_CONNECT 权限）。 */
     public List<BluetoothDevice> getBondedDevices() {
         List<BluetoothDevice> out = new ArrayList<>();
@@ -676,9 +684,52 @@ public final class HidKeyboard {
         return out;
     }
 
+    /**
+     * 连接指定主机。若当前已连着另一台，会先自动断开旧主机再连接新主机，
+     * 不需要用户先手动点一次「断开」。
+     */
     public void connect(final BluetoothDevice device) {
         if (device == null) return;
-        manualDisconnect = false;
+        final BluetoothHidDevice h = hid;
+        if (h == null || !appRegistered) {
+            lastHost = device;
+            state(ST_WAIT, "正在初始化", "HID 设备注册完成后请再点一次连接");
+            start();
+            return;
+        }
+        final BluetoothDevice current = host;
+        if (current != null && !current.equals(device)) {
+            // 已连接另一台主机：自动断开它，再发起新连接
+            manualDisconnect = true;   // 防止断开回调走「自动重连回旧主机」分支
+            host = null;
+            lastHost = device;         // 兜底同步时以新目标为准
+            state(ST_WAIT, "正在切换设备…",
+                    "断开 " + nameOf(current) + " → 连接 " + nameOf(device));
+            io.execute(() -> {
+                try {
+                    h.disconnect(current);
+                    log("切换设备：先断开 " + nameOf(current));
+                } catch (Throwable t) {
+                    Log.w(TAG, "disconnect old host failed", t);
+                }
+                // 快速连点时只保留最后一次目标，避免多个连接请求互相打架
+                if (pendingSwitchConnect != null) main.removeCallbacks(pendingSwitchConnect);
+                pendingSwitchConnect = () -> {
+                    pendingSwitchConnect = null;
+                    // 切换过程中保持 manualDisconnect=true：旧主机迟到的断开回调
+                    // 才不会误走自动重连分支、把刚连上的新主机抢走
+                    connectNow(device, true);
+                };
+                main.postDelayed(pendingSwitchConnect, 600L);
+            });
+            return;
+        }
+        connectNow(device, false);
+    }
+
+    /** 真正发起连接；切换设备的路径会在旧主机断开后延迟调用这里。 */
+    private void connectNow(final BluetoothDevice device, final boolean fromSwitch) {
+        if (!fromSwitch) manualDisconnect = false;
         lastHost = device;
         final BluetoothHidDevice h = hid;
         if (h == null || !appRegistered) {

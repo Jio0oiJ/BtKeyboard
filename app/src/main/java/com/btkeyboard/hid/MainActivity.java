@@ -60,7 +60,7 @@ public class MainActivity extends Activity implements HidKeyboard.Listener {
                     + "3. 手机：点「配对」，允许「可被发现」（5 分钟）。\n"
                     + "4. 主机：添加蓝牙设备 → 搜索并选这台手机的蓝牙名称 → 完成配对。\n"
                     + "   ★ 全程由主机发起搜索；手机不要切到系统蓝牙设置，保持本 App 在前台、屏幕别锁。\n"
-                    + "5. 状态变「已连接」即可打字；没自动连上就点「设备」选中主机发起连接。\n\n"
+                    + "5. 状态变「已连接」即可打字；点「设备」选中主机发起连接。已连着另一台主机时直接选新主机即可，会自动断开旧主机再连接，不用先点「断开」。\n\n"
                     + "【一直显示「连接中」】\n"
                     + "· 现在最多等 10 秒会给出明确诊断，不会再无限等待；已连上但回调丢失也会自动同步成「已连接」。\n"
                     + "· 绝大多数是主机缓存了旧配对（里面没有 HID 服务）→ 回到上面第 2 步重新配对。\n"
@@ -342,9 +342,12 @@ public class MainActivity extends Activity implements HidKeyboard.Listener {
             return;
         }
         String[] names = new String[devices.size()];
-        for (int i = 0; i < devices.size(); i++) names[i] = hid.nameOf(devices.get(i));
+        for (int i = 0; i < devices.size(); i++) {
+            BluetoothDevice d = devices.get(i);
+            names[i] = hid.nameOf(d) + (hid.isConnectedTo(d) ? "（当前）" : "");
+        }
         new AlertDialog.Builder(this)
-                .setTitle("选择主机（点击发起连接）")
+                .setTitle("选择主机（切换时自动断开当前设备）")
                 .setItems(names, (dialog, which) -> hid.connect(devices.get(which)))
                 .setNegativeButton("取消", null)
                 .show();
